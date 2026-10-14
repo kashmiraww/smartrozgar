@@ -278,6 +278,26 @@ export const AFFINITY: Partial<Record<SectorId, Record<string, number>>> = {
 export const DEFAULT_AFFINITY = 0.85;
 
 /**
+ * In-state vacancy posting dampener for net labour-exporting states: NCS
+ * postings lag the training base where workers migrate out for work, which is
+ * exactly where certified candidates face thin local placement markets.
+ */
+export const MIGRATION_DAMPENER: Record<string, number> = {
+  bihar: 0.78,
+  kerala: 0.82,
+  odisha: 0.82,
+  jharkhand: 0.85,
+  chhattisgarh: 0.87,
+  "madhya-pradesh": 0.88,
+  rajasthan: 0.9,
+  "himachal-pradesh": 0.88,
+  assam: 0.9,
+  "uttar-pradesh": 0.94,
+  punjab: 0.93,
+  uttarakhand: 0.92,
+};
+
+/**
  * Metro districts (matched on lower-cased name substring) absorb a larger
  * share of demand than the seeded baseline — big urban centres post more
  * vacancies relative to their training base.

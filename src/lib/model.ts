@@ -18,6 +18,7 @@
 import {
   AFFINITY,
   DEFAULT_AFFINITY,
+  MIGRATION_DAMPENER,
   METRO_BOOST,
   MODEL,
   NATIONAL_REFS,
@@ -167,7 +168,7 @@ function seatMix(state: StateMeta, sector: SectorId): number {
   // through) — most of the mix is inertial, which is what produces chronic
   // oversupply in states whose seat base was built for older demand.
   const inertia = 0.7 + 0.3 * affinity(sector, state.slug);
-  const jitter = 0.9 + 0.2 * rand01(`${state.slug}:${sector}:mix`);
+  const jitter = 0.85 + 0.3 * rand01(`${state.slug}:${sector}:mix`);
   return base * inertia * jitter;
 }
 
@@ -212,7 +213,11 @@ function stateDemand(state: StateMeta, sector: Sector): number {
   const di = demandIndex(sector, state);
   const workers = state.workers * 100_000; // lakh → persons
   const scaled = workers * sector.employmentShare * AFF_NORM[sector.id] * affinity(sector.id, state.slug);
-  return scaled * sector.demandRate * (0.75 + 0.5 * (di / 100));
+  // ±10% state-level posting intensity: hiring concentration that the
+  // affinity grid alone cannot capture.
+  const local = 0.9 + 0.2 * rand01(`${state.slug}:${sector.id}:demand`);
+  const damp = MIGRATION_DAMPENER[state.slug] ?? 1;
+  return scaled * sector.demandRate * (0.75 + 0.5 * (di / 100)) * local * damp;
 }
 
 /** Certified candidates emerging for (state, sector) this year. */
@@ -586,7 +591,7 @@ export function tradeRows(scope: Scope, sector: SectorId | "all" = "all"): Trade
     // Supply does not track demand role-for-role — that is where the
     // per-trade saturation/shortage signals come from.
     const weights = trades.map(
-      (t) => t.demandShare * (0.7 + 0.6 * rand01(`${geoKey}:${t.id}:trade`)),
+      (t) => t.demandShare * (0.55 + 0.9 * rand01(`${geoKey}:${t.id}:trade`)),
     );
     const wSum = weights.reduce((a, b) => a + b, 0);
     trades.forEach((t, i) => {
@@ -669,6 +674,34 @@ export function warnings(sector: SectorId | "all" = "all"): Warnings {
       tradeSaturation: trades.filter((t) => t.flag === "saturation"),
     };
   }) as Warnings;
+}
+
+export interface TradeWarning {
+  stateSlug: string;
+  stateName: string;
+  stateNameHi: string;
+  row: TradeRow;
+}
+
+/** Trade-level early warnings scanned across all states. */
+export function tradeWarnings(
+  sector: SectorId | "all" = "all",
+): { shortage: TradeWarning[]; saturation: TradeWarning[] } {
+  return memo(`tradeWarn:${sector}`, () => {
+    const shortage: TradeWarning[] = [];
+    const saturation: TradeWarning[] = [];
+    for (const st of STATES) {
+      for (const row of tradeRows({ level: "state", stateSlug: st.slug }, sector)) {
+        if (row.flag === "shortage")
+          shortage.push({ stateSlug: st.slug, stateName: st.name, stateNameHi: st.nameHi, row });
+        if (row.flag === "saturation")
+          saturation.push({ stateSlug: st.slug, stateName: st.name, stateNameHi: st.nameHi, row });
+      }
+    }
+    shortage.sort((a, b) => b.row.score - a.row.score);
+    saturation.sort((a, b) => b.row.score - a.row.score);
+    return { shortage, saturation };
+  }) as { shortage: TradeWarning[]; saturation: TradeWarning[] };
 }
 
 /* ------------------------------------------------------------------- KPIs */

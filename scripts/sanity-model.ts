@@ -5,6 +5,7 @@ import {
   districtRows,
   stateRows,
   tradeRows,
+  tradeWarnings,
   warnings,
 } from "../src/lib/model";
 import { SECTORS } from "../src/data/lmis";
@@ -56,3 +57,13 @@ console.log("top saturated trades:", w.tradeSaturation.slice(0, 3).map((t) => `$
 
 const trades = tradeRows({ level: "state", stateSlug: "bihar" }, "all");
 console.log("BIHAR trade rows:", trades.length, trades.slice(0, 3).map((t) => `${t.name}:${t.gapPct}%`));
+
+const tw = tradeWarnings("all");
+console.log(
+  "state×trade warnings: shortage",
+  tw.shortage.length,
+  "saturation",
+  tw.saturation.length,
+  "| e.g.",
+  tw.saturation.slice(0, 3).map((w) => `${w.stateName}/${w.row.name} ${w.row.gapPct}%`),
+);
