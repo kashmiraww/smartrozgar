@@ -1,3 +1,17 @@
+## SmartRozgar
+---
+
+<div align="center">
+
+# 📊 Labour Market Intelligence System (LMIS)
+**AI-Enabled Skill Demand-Supply Forecasting Engine**
+
+[🖥️ **Explore Live Demo**](https://smartrozgar.freebuff.app/)
+
+---
+
+</div>
+
 ## Overview
 
 This project uses the following tech stack:
