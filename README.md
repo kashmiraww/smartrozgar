@@ -3,7 +3,7 @@
 
 <div align="center">
 
-# 📊 Labour Market Intelligence System (LMIS)
+# 📊 SmartRozgar Labour Market Intelligence System (LMIS)
 **AI-Enabled Skill Demand-Supply Forecasting Engine**
 
 [🖥️ **Explore Live Demo**](https://smartrozgar.freebuff.app/)
