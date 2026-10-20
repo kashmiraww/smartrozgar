@@ -35,6 +35,42 @@ Use bun for the package manager.
 
 This project is set up already and running on a cloud environment, as well as a convex development in the sandbox.
 
+## Run locally
+
+You need [Bun](https://bun.sh/) and access to a Convex deployment.
+
+1. Install the frontend dependencies:
+
+   ```powershell
+   bun install
+   ```
+
+2. Start the Convex development deployment and follow the prompts to sign in
+   and select or create a development deployment:
+
+   ```powershell
+   bunx convex dev
+   ```
+
+   Keep this running. The Convex CLI configures `CONVEX_DEPLOYMENT`; make sure
+   the deployment URL is also set as `VITE_CONVEX_URL` in `.env.local`. If the
+   CLI does not create that file, copy `.env.example` to `.env.local` and fill
+   in the deployment values. Set the Convex deployment's `CONVEX_SITE_URL`
+   environment variable to `http://localhost:5173`.
+
+   Email OTP sign-in also requires `VLY_INTEGRATION_KEY` to be set in the
+   Convex deployment's environment. Do not commit deployment secrets.
+
+3. In a second terminal, start the Vite development server:
+
+   ```powershell
+   bun run dev
+   ```
+
+4. Open the local URL printed by Vite (usually `http://localhost:5173`).
+
+To check a production build, run `bun run build`.
+
 ## Environment Variables
 
 The project is set up with project specific CONVEX_DEPLOYMENT and VITE_CONVEX_URL environment variables on the client side.
