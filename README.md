@@ -1,363 +1,62 @@
-## SmartRozgar
----
+# SmartRozgar
+**AI-Enabled Labour Market Intelligence and Skill Demand Supply Forecasting Engine**[cite: 2]
 
-<div align="center">
+Developed for the **Smart India Hackathon 2026** under the Software category[cite: 2]. SmartRozgar is designed to align India’s skilling efforts with active job demands by transforming scattered data into actionable intelligence[cite: 2].
 
-# 📊 SmartRozgar Labour Market Intelligence System (LMIS)
-**AI-Enabled Skill Demand-Supply Forecasting Engine**
-
-[🖥️ **Explore Live Demo**](https://smartrozgar.freebuff.app/)
+**Prototype Link:** [smartrozgar.freebuff.app](https://smartrozgar.freebuff.app/)[cite: 2]
 
 ---
 
-</div>
-
-## Overview
-
-This project uses the following tech stack:
-- Vite
-- Typescript
-- React Router v7 (all imports from `react-router` instead of `react-router-dom`)
-- React 19 (for frontend components)
-- Tailwind v4 (for styling)
-- Shadcn UI (for UI components library)
-- Lucide Icons (for icons)
-- Convex (for backend & database)
-- Convex Auth (for authentication)
-- Framer Motion (for animations)
-- Three.js (for 3d models)
-
-All relevant files live in the 'src' directory.
-
-Use bun for the package manager.
-
-## Setup
-
-This project is set up already and running on a cloud environment, as well as a convex development in the sandbox.
-
-## Run locally
-
-You need [Bun](https://bun.sh/) and access to a Convex deployment.
-
-1. Install the frontend dependencies:
-
-   ```powershell
-   bun install
-   ```
-
-2. Start the Convex development deployment and follow the prompts to sign in
-   and select or create a development deployment:
-
-   ```powershell
-   bunx convex dev
-   ```
-
-   Keep this running. The Convex CLI configures `CONVEX_DEPLOYMENT`; make sure
-   the deployment URL is also set as `VITE_CONVEX_URL` in `.env.local`. If the
-   CLI does not create that file, copy `.env.example` to `.env.local` and fill
-   in the deployment values. Set the Convex deployment's `CONVEX_SITE_URL`
-   environment variable to `http://localhost:5173`.
-
-   Email OTP sign-in also requires `VLY_INTEGRATION_KEY` to be set in the
-   Convex deployment's environment. Do not commit deployment secrets.
-
-3. In a second terminal, start the Vite development server:
-
-   ```powershell
-   bun run dev
-   ```
-
-4. Open the local URL printed by Vite (usually `http://localhost:5173`).
-
-To check a production build, run `bun run build`.
-
-## Environment Variables
-
-The project is set up with project specific CONVEX_DEPLOYMENT and VITE_CONVEX_URL environment variables on the client side.
-
-The convex server has a separate set of environment variables that are accessible by the convex backend.
-
-Currently, these variables include auth-specific keys: JWKS, JWT_PRIVATE_KEY, and SITE_URL.
-
-
-# Using Authentication (Important!)
-
-You must follow these conventions when using authentication.
-
-## Auth is already set up.
-
-All convex authentication functions are already set up. The auth currently uses email OTP and anonymous users, but can support more.
-
-The email OTP configuration is defined in `src/convex/auth/emailOtp.ts`. DO NOT MODIFY THIS FILE.
-
-Also, DO NOT MODIFY THESE AUTH FILES: `src/convex/auth.config.ts` and `src/convex/auth.ts`.
-
-## Using Convex Auth on the backend
-
-On the `src/convex/users.ts` file, you can use the `getCurrentUser` function to get the current user's data.
-
-## Using Convex Auth on the frontend
-
-The `/auth` page is already set up to use auth. Navigate to `/auth` for all log in / sign up sequences.
-
-You MUST use this hook to get user data. Never do this yourself without the hook:
-```typescript
-import { useAuth } from "@/hooks/use-auth";
-
-const { isLoading, isAuthenticated, user, signIn, signOut } = useAuth();
-```
-
-## Protected Routes
-
-The starter `/dashboard` route is protected with `RequireAuth`. Extend that page
-for the product's authenticated experience, and reuse `RequireAuth` when adding
-another protected route — do NOT hand-roll a redirect to `/auth`, since landing
-on a bare sign-in form with no explanation of what was blocked is confusing.
-
-`RequireAuth` states the block on the page the visitor asked for and sends them
-to `/auth?returnTo=<current route>` when they choose to sign in, so they come
-back to it. Pass `title` and `description` to say what the page is:
-
-```tsx
-<Route
-  path="/dashboard"
-  element={
-    <RequireAuth
-      title="Sign in to view your dashboard"
-      description="Your projects and settings live here."
-    >
-      <Dashboard />
-    </RequireAuth>
-  }
-/>
-```
-
-Pass `redirectImmediately` for a route where bouncing straight to `/auth` really
-is better.
-
-## Auth Page
-
-The auth page is defined in `src/pages/Auth.tsx`. Send sign-in and sign-up actions
-to `/auth`.
-
-## Authorization
-
-You can perform authorization checks on the frontend and backend.
-
-On the frontend, you can use the `useAuth` hook to get the current user's data and authentication state.
-
-You should also be protecting queries, mutations, and actions at the base level, checking for authorization securely.
-
-## Adding a redirect after auth
-
-The `/auth` route in `src/main.tsx` redirects to `/dashboard` by default. If the
-product's main authenticated route is different, update `redirectAfterAuth` to
-that route. A validated same-origin `returnTo` query parameter takes priority so
-users can resume the protected page they originally requested. Never leave an
-authenticated product redirecting back to the public landing page.
-
-## Complete authenticated products
-
-When the requested product implies accounts, a workspace, a dashboard, or other
-signed-in functionality, the task is not complete with only a landing page and
-auth form. Build the main authenticated experience, protect its route, and verify
-that signing in reaches it.
-
-# Frontend Conventions
-
-You will be using the Vite frontend with React 19, Tailwind v4, and Shadcn UI.
-
-Generally, pages should be in the `src/pages` folder, and components should be in the `src/components` folder.
-
-Shadcn primitives are located in the `src/components/ui` folder and should be used by default.
-
-## Page routing
-
-Your page component should go under the `src/pages` folder.
-
-When adding a page, update the react router configuration in `src/main.tsx` to include the new route you just added.
-
-## Shad CN conventions
-
-Follow these conventions when using Shad CN components, which you should use by default.
-- Remember to use "cursor-pointer" to make the element clickable
-- For title text, use the "tracking-tight font-bold" class to make the text more readable
-- Always make apps MOBILE RESPONSIVE. This is important
-- AVOID NESTED CARDS. Try and not to nest cards, borders, components, etc. Nested cards add clutter and make the app look messy.
-- AVOID SHADOWS. Avoid adding any shadows to components. stick with a thin border without the shadow.
-- Avoid skeletons; instead, use the loader2 component to show a spinning loading state when loading data.
-
-
-## Landing Pages
-
-You must always create good-looking designer-level styles to your application. 
-- Make it well animated and fit a certain "theme", ie neo brutalist, retro, neumorphism, glass morphism, etc
-
-Use known images and emojis from online.
-
-If the user is logged in already, show the get started button to say "Dashboard" or "Profile" instead to take them there.
-
-## Responsiveness and formatting
-
-Make sure pages are wrapped in a container to prevent the width stretching out on wide screens. Always make sure they are centered aligned and not off-center.
-
-Always make sure that your designs are mobile responsive. Verify the formatting to ensure it has correct max and min widths as well as mobile responsiveness.
-
-- Always create sidebars for protected dashboard pages and navigate between pages
-- Always create navbars for landing pages
-- On these bars, the created logo should be clickable and redirect to the index page
-
-## Animating with Framer Motion
-
-You must add animations to components using Framer Motion. It is already installed and configured in the project.
-
-To use it, import the `motion` component from `framer-motion` and use it to wrap the component you want to animate.
-
-
-### Other Items to animate
-- Fade in and Fade Out
-- Slide in and Slide Out animations
-- Rendering animations
-- Button clicks and UI elements
-
-Animate for all components, including on landing page and app pages.
-
-## Three JS Graphics
-
-Your app comes with three js by default. You can use it to create 3D graphics for landing pages, games, etc.
-
-
-## Colors
-
-You can override colors in: `src/index.css`
-
-This uses the oklch color format for tailwind v4.
-
-Always use these color variable names.
-
-Make sure all ui components are set up to be mobile responsive and compatible with both light and dark mode.
-
-Set theme using `dark` or `light` variables at the parent className.
-
-## Styling and Theming
-
-When changing the theme, always change the underlying theme of the shad cn components app-wide under `src/components/ui` and the colors in the index.css file.
-
-Avoid hardcoding in colors unless necessary for a use case, and properly implement themes through the underlying shad cn ui components.
-
-When styling, ensure buttons and clickable items have pointer-click on them (don't by default).
-
-Always follow a set theme style and ensure it is tuned to the user's liking.
-
-## Toasts
-
-You should always use toasts to display results to the user, such as confirmations, results, errors, etc.
-
-Use the shad cn Sonner component as the toaster. For example:
-
-```
-import { toast } from "sonner"
-
-import { Button } from "@/components/ui/button"
-export function SonnerDemo() {
-  return (
-    <Button
-      variant="outline"
-      onClick={() =>
-        toast("Event has been created", {
-          description: "Sunday, December 03, 2023 at 9:00 AM",
-          action: {
-            label: "Undo",
-            onClick: () => console.log("Undo"),
-          },
-        })
-      }
-    >
-      Show Toast
-    </Button>
-  )
-}
-```
-
-Remember to import { toast } from "sonner". Usage: `toast("Event has been created.")`
-
-## Dialogs
-
-Always ensure your larger dialogs have a scroll in its content to ensure that its content fits the screen size. Make sure that the content is not cut off from the screen.
-
-Ideally, instead of using a new page, use a Dialog instead. 
-
-# Using the Convex backend
-
-You will be implementing the convex backend. Follow your knowledge of convex and the documentation to implement the backend.
-
-## The Convex Schema
-
-You must correctly follow the convex schema implementation.
-
-The schema is defined in `src/convex/schema.ts`.
-
-Do not include the `_id` and `_creationTime` fields in your queries (it is included by default for each table).
-Do not index `_creationTime` as it is indexed for you. Never have duplicate indexes.
-
-
-## Convex Actions: Using CRUD operations
-
-When running anything that involves external connections, you must use a convex action with "use node" at the top of the file.
-
-You cannot have queries or mutations in the same file as a "use node" action file. Thus, you must use pre-built queries and mutations in other files.
-
-You can also use the pre-installed internal crud functions for the database:
-
-```ts
-// in convex/users.ts
-import { crud } from "convex-helpers/server/crud";
-import schema from "./schema.ts";
-
-export const { create, read, update, destroy } = crud(schema, "users");
-
-// in some file, in an action:
-const user = await ctx.runQuery(internal.users.read, { id: userId });
-
-await ctx.runMutation(internal.users.update, {
-  id: userId,
-  patch: {
-    status: "inactive",
-  },
-});
-```
-
-
-## Common Convex Mistakes To Avoid
-
-When using convex, make sure:
-- Document IDs are referenced as `_id` field, not `id`.
-- Document ID types are referenced as `Id<"TableName">`, not `string`.
-- Document object types are referenced as `Doc<"TableName">`.
-- Keep schemaValidation to false in the schema file.
-- You must correctly type your code so that it passes the type checker.
-- You must handle null / undefined cases of your convex queries for both frontend and backend, or else it will throw an error that your data could be null or undefined.
-- Always use the `@/folder` path, with `@/convex/folder/file.ts` syntax for importing convex files.
-- This includes importing generated files like `@/convex/_generated/server`, `@/convex/_generated/api`
-- Remember to import functions like useQuery, useMutation, useAction, etc. from `convex/react`
-- NEVER have return type validators.
-- 🚀 Key Features
-
-* 📊 Labour Market Analysis
-* 🤖 AI-Enabled Skill Demand Forecasting
-* 📍 District-Wise Skill Gap Identification
-* 📈 Industry Skill Demand and Supply Analysis
-* 🎯 Data-Driven Workforce Planning
-
-🎯 Project Objective
-
-SmartRozgar aims to bridge the gap between industry skill requirements and workforce availability through labour market intelligence and skill demand-supply forecasting.
-
-🌍 Expected Impact
-
-* Helps identify emerging in-demand skills.
-* Supports better planning of skill development programs.
-* Enables data-driven decisions for policymakers and training institutions.
-* Contributes to improved workforce readiness and employability.
-
-⸻
+## 🚀 The Problem
+India faces a critical mismatch between the skills possessed by trained workers and the specific skills required by industries[cite: 2]. Currently, job and training data come from scattered sources, making it difficult to identify regional skill shortages, predict future demands, and plan training effectively[cite: 2]. 
+
+## 💡 Our Solution
+SmartRozgar acts as a proactive intelligence engine that helps government planners and institutions decide where training and skill development programs are needed most[cite: 2]. 
+
+The system operates on a 5-step pipeline[cite: 2]:
+1. **Collect Data:** Ingests job vacancies, skill demand, and available training seat data[cite: 2].
+2. **Clean Data:** Standardizes formats, handles missing values, and removes duplicate postings[cite: 2].
+3. **Find Skill Gap:** Compares active job demand against available training seats to pinpoint exact shortages[cite: 2].
+4. **Predict Future Demand:** Estimates which specific skills will be needed in the next 2 to 4 quarters[cite: 2].
+5. **Display Result:** Visualizes skill shortages, state-wise rankings, and forecasts on an interactive dashboard with early-warning flags[cite: 2].
+
+---
+
+## ⭐ Why We Stand Out
+Unlike traditional job portals or static data dashboards, SmartRozgar is built specifically for scalable, proactive government planning:
+* **Zero-Cost Infrastructure:** Runs on a 100% free, open-source stack with no database server required, hosted on Streamlit Community Cloud[cite: 2].
+* **Plug-and-Play Integration:** Provides FastAPI endpoints (like `/gaps`, `/forecast`, `/rankings`) designed to feed directly into existing MSDE and NCVET workflows rather than forcing users to adopt a completely new ecosystem[cite: 2].
+* **Proactive, Not Reactive:** Shifts planning from reactive to proactive using AutoETS forecasting (2-4 quarters ahead) and early-warning flags[cite: 2].
+* **Scalable File-Based Architecture:** Starts as a small pilot but scales nationwide simply by adding new data files, with no need to rebuild the backend[cite: 2].
+* **Localized & Accessible:** Features district-level drill-downs and an English/Hindi language switcher to ensure accessibility for regional planners[cite: 2].
+
+---
+
+## 🛠️ Technical Methodology & Stack
+The project is built utilizing Python 3.11[cite: 2].
+
+* **Programming:** Python[cite: 2]
+* **Data Processing & Storage:** Pandas, NumPy, DuckDB, Parquet[cite: 2]
+* **Job Matching:** RapidFuzz, NCO Mapping[cite: 2]
+* **Forecasting:** StatsForecast AutoETS[cite: 2]
+* **API & Deployment:** FastAPI, Uvicorn, Streamlit Community Cloud[cite: 2]
+* **Visualization:** Streamlit, Plotly[cite: 2]
+
+*(Note: The current prototype utilizes PLFS data alongside a synthetic data generator, as NCS and e-Shram feeds are not publicly available)*[cite: 2].
+
+---
+
+## 📊 Impact & Viability
+
+### Expected Outcomes
+* **Bridged Skill Gaps:** Reduces the mismatch between trained workers and industry needs[cite: 2].
+* **Efficient Resource Use:** Optimizes training seat allocation based on actual, forecasted demand, reducing financial wastage[cite: 2].
+* **Policy Alignment:** Directly supports the *Skill India* initiative and NSQF course revisions[cite: 2].
+
+---
+
+## 👥 Project Details
+* **Hackathon:** Smart India Hackathon (SIH) 2026[cite: 2]
+* **Problem Statement ID:** SIH26246[cite: 2]
+* **Team Name:** ChicGeeks[cite: 2]
+* **Team ID:** 197342[cite: 2]
