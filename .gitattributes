@@ -1,0 +1,12 @@
+# Ignore frontend template files in the language stats
+*.html linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+*.ts linguist-vendored
+*.jsx linguist-vendored
+*.tsx linguist-vendored
+
+# Ensure your data files don't skew the results
+*.parquet linguist-vendored
+*.csv linguist-vendored
+*.json linguist-vendored
