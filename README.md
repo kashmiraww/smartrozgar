@@ -22,11 +22,21 @@ The system operates on a 5-step pipeline:
 
 ---
 
+## 🖥️ Platform Features & Capabilities
+* **Granular Geographic Drill-Down:** Filter data seamlessly across national, state, and district/city levels to locate localized skill deficits.
+* **Dynamic State-Wise Rankings:** Benchmark states and regions based on skill shortage severity, job creation rates, and training capacity.
+* **Interactive Forecasting Graphs:** Visual timeline projections of demand vs. supply trajectories up to 2–4 quarters ahead using Plotly.
+* **Early-Warning Indicators:** Automated alert flags highlighting critical shortages before they trigger structural unemployment.
+* **Multi-Language Accessibility:** Built-in English/Hindi switcher for field officers and regional policymakers.
+* **Direct Workflow APIs:** Integrated FastAPI endpoints (`/gaps`, `/forecast`, `/rankings`) for automated consumption by third-party government systems.
+
+---
+
 ## ⭐ Why We Stand Out
 Unlike traditional job portals or static data dashboards, SmartRozgar is built specifically for scalable, proactive government planning:
 - **Zero-Cost Infrastructure:** Runs on a 100% free, open-source stack with no database server required, hosted on Streamlit Community Cloud.
-- **Plug-and-Play Integration:** Provides FastAPI endpoints (like `/gaps`, `/forecast`, `/rankings`) designed to feed directly into existing MSDE and NCVET workflows rather than forcing users to adopt a completely new ecosystem.
-- **Proactive, Not Reactive:** Shifts planning from reactive to proactive using AutoETS forecasting (2-4 quarters ahead) and early-warning flags.
+- **Plug-and-Play Integration:** Provides FastAPI endpoints designed to feed directly into existing MSDE and NCVET workflows rather than forcing users to adopt a completely new ecosystem.
+- **Proactive, Not Reactive:** Shifts planning from reactive to proactive using AutoETS forecasting (2–4 quarters ahead) and early-warning flags.
 - **Scalable File-Based Architecture:** Starts as a small pilot but scales nationwide simply by adding new data files, with no need to rebuild the backend.
 - **Localized & Accessible:** Features district-level drill-downs and an English/Hindi language switcher to ensure accessibility for regional planners.
 
