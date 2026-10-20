@@ -3,7 +3,7 @@
 
 Developed for the **Smart India Hackathon 2026** under the Software category. SmartRozgar is designed to align India’s skilling efforts with active job demands by transforming scattered data into actionable intelligence.
 
-**Prototype Link:** [smartrozgar.freebuff.app](https://smartrozgar.freebuff.app/)
+**Prototype Link:** [smartrozgar.netlify.app](https://smartrozgar.netlify.app/)
 
 ---
 
