@@ -305,3 +305,23 @@ When using convex, make sure:
 - This includes importing generated files like `@/convex/_generated/server`, `@/convex/_generated/api`
 - Remember to import functions like useQuery, useMutation, useAction, etc. from `convex/react`
 - NEVER have return type validators.
+- 🚀 Key Features
+
+* 📊 Labour Market Analysis
+* 🤖 AI-Enabled Skill Demand Forecasting
+* 📍 District-Wise Skill Gap Identification
+* 📈 Industry Skill Demand and Supply Analysis
+* 🎯 Data-Driven Workforce Planning
+
+🎯 Project Objective
+
+SmartRozgar aims to bridge the gap between industry skill requirements and workforce availability through labour market intelligence and skill demand-supply forecasting.
+
+🌍 Expected Impact
+
+* Helps identify emerging in-demand skills.
+* Supports better planning of skill development programs.
+* Enables data-driven decisions for policymakers and training institutions.
+* Contributes to improved workforce readiness and employability.
+
+⸻
